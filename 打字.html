@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+
+    <title>数字练习</title>
+</head>
+<style>
+    body{
+        background: skyblue;
+    }
+.largerBox{
+    width: 500px;
+    margin: 0 auto;
+    margin-top: 80px;
+}
+    .btn{
+        margin-top: 10px;
+    }
+    .content{
+
+    }
+    .con1,.con2{
+        height: 30px;
+        margin-bottom: 10px;
+        color: #506b86;
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .con1 input{
+        outline: none;
+        border: none;
+        height: 100%;
+        border-radius: 5px;
+        font-size: 18px;
+        padding-left: 10px;
+        color: #054585;
+        font-weight: bold;
+        width: 120px;
+    }
+    .con1 input{
+
+    }
+    .readonlyView input{
+        width: 80px;
+        height: 30px;
+        border-radius: 10px;
+        outline: none;
+        border: none;
+        padding-left: 5px;
+        font-size: 20px;
+        margin-top: 50px;
+        text-align: center;
+        line-height: 30px;
+    }
+    .readonlyView input::placeholder{
+        font-weight: bold;
+        font-size: 15px;
+
+    }
+    .btn button{
+        border: 1px solid #cccccc;
+        padding: 5px;
+        border-radius: 5px;
+
+    }
+    .bai{
+        display: none;
+    }
+</style>
+<body>
+<div class="largerBox">
+
+    <div class="content">
+        <div class="con1">
+            文本内容:
+            <input type="text" id="number" readonly value=""></br>
+        </div>
+        <div class="con1 con2">
+            输入内容:
+            <input type="text" id="checkNumber" value="">
+        </div>
+    </div>
+    <div class="readonlyView">
+        <input type="text" id="time" placeholder="输入时长！">
+        <span>秒</span>
+    </div>
+    <div class="btn">
+        <button>开始测试</button>
+        <button class="stop">暂停</button>
+        <button class='reset'>重置</button>
+    </div>
+    <div>
+        <p style="color: brown;">温馨提示: 首先输入本次测试时长,点击开始测试即可。祝你打字顺利！</p>
+    </div>
+
+</div>
+</body>
+<script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    var number = 1234;
+    var i = 0;
+    $('.btn button').eq(0).on('click',function () {
+        var time = $('#time').val();
+        var total = time;
+        var reg = /[^0-9]/g;
+        var some = reg.test(time);
+        if(some == true) {
+            alert('请输入数字!');
+            return;
+        }
+        if(time == ''){
+            alert('请输出测试时长!!!');
+            return;
+        }
+        thousand();
+        // 倒计时
+        var timeid = setInterval(function () {
+            time--;
+            $('#time').val(time);
+            if (time <= 0){
+                var mounter = (i * 7)/(total)
+                alert(`你打了${i*7}个数字,平均一秒打${mounter}字。`);
+                clearTimeout(timeid);
+            }
+        },1000);
+        $('.stop').on('click',function () {
+            clearTimeout(timeid);
+            console.log('暂停')
+        });
+        $('.reset').on('click',function () {
+            clearTimeout(timeid);
+            $('#time').val('');
+            $('#number').val('');
+            $('#checkNumber').val('');
+            console.log('重置')
+        });
+    });
+        // 检测输入的数据是否等于生成的数据
+    $('#checkNumber').keyup(() => {
+        var value2 = $('#checkNumber').val();
+        // console.log(number)
+        // console.log(value2)
+        if (value2 == number){
+            thousand()
+            // console.log('数据一样')
+            $('#checkNumber').val('') ;
+            i++;
+        }
+    } )
+
+    // 生成一个随机四位数,填入第一个input;
+    function thousand() {
+        var a = Math.floor(Math.random()*10000000 + 1);
+        number = a;
+        $('#number').val(number);
+        // var x = Math.floor(Math.random()*10 + 1) * 1000;
+        // var y = Math.floor(Math.random()*10 + 1) * 100;
+        // var z = Math.floor(Math.random()*10 + 1) * 10;
+        // var a = Math.floor(Math.random()*10 + 1);
+        // number = x +　y + z + a;
+        // console.log(number)
+    }
+
+
+
+</script>
+</html>
